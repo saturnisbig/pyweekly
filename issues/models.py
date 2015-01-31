@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+from markdown import markdown
 
 from django.db import models
 
 
 class Category(models.Model):
     title = models.CharField(u'类别名称', max_length=200)
+    slug = models.SlugField(unique=True)
     description = models.TextField(u'类别简介', blank=True)
     ctime = models.DateTimeField(auto_now_add=True)
 
@@ -36,6 +38,7 @@ class Article(models.Model):
                       (DRAFT_STATUS, u'草稿'),
                       (HIDE_STATUS, u'隐藏'),)
     title = models.CharField(u'标题', max_length=250)
+    slug = models.SlugField(unique=True)
     excerpt = models.TextField(u'内容介绍', blank=True)
     source_link = models.URLField(u'来源链接')
     translation_link = models.URLField(u'中文翻译链接', blank=True)
@@ -49,6 +52,13 @@ class Article(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS,
                                  help_text=u'只有文章为发布状态才会在页面显示')
 
+    class Meta:
+        ordering = ['-pub_date']
 
     def __unicode__(self):
         return self.title
+
+    def save(self, force_insert=False, forse_update=False):
+        if self.excerpt:
+            self.excerpt_html = markdown(self.excerpt)
+        super(Article, self).save(force_insert, forse_update)
