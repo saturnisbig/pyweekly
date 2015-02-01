@@ -24,13 +24,13 @@ class Category(models.Model):
 
 
 class Entry(models.Model):
-    DRAFT = 1
-    LIVE = 2
-    HIDE = 3
+    DRAFT_STATUS = 1
+    LIVE_STATUS = 2
+    HIDE_STATUS = 3
     STATUS_CHOICES = (
-        (DRAFT, "草稿"),
-        (LIVE, "发布"),
-        (HIDE, "隐藏")
+        (DRAFT_STATUS, "草稿"),
+        (LIVE_STATUS, "发布"),
+        (HIDE_STATUS, "隐藏")
     )
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique_for_date="pub_date")
@@ -39,13 +39,15 @@ class Entry(models.Model):
     pub_date = models.DateTimeField(default=datetime.datetime.now)
 
     enable_comments = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False)
+    status = models.SmallIntegerField(choices=STATUS_CHOICES,
+                                      default=LIVE_STATUS)
 
     author = models.ForeignKey(User)
     categories = models.ManyToManyField(Category)
-    status = models.SmallIntegerField(choices=STATUS_CHOICES, default=LIVE)
 
-    excerpt_html = models.TextField(editable=False)
-    content_html = models.TextField(editable=False)
+    excerpt_html = models.TextField(editable=False, blank=True)
+    content_html = models.TextField(editable=False, blank=True)
 
     class Meta:
         ordering = ["-pub_date"]
