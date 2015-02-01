@@ -26,28 +26,32 @@ class Category(models.Model):
 class Entry(models.Model):
     DRAFT_STATUS = 1
     LIVE_STATUS = 2
-    HIDE_STATUS = 3
+    HIDDEN_STATUS = 3
     STATUS_CHOICES = (
         (DRAFT_STATUS, "草稿"),
         (LIVE_STATUS, "发布"),
-        (HIDE_STATUS, "隐藏")
+        (HIDDEN_STATUS, "隐藏")
     )
+    # Core fields.
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique_for_date="pub_date")
     excerpt = models.TextField(blank=True)
     content = models.TextField()
     pub_date = models.DateTimeField(default=datetime.datetime.now)
 
+    # Fields to store genereted HTML.
+    excerpt_html = models.TextField(editable=False, blank=True)
+    content_html = models.TextField(editable=False, blank=True)
+
+    # Metadata.
+    author = models.ForeignKey(User)
     enable_comments = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
+    slug = models.SlugField(unique_for_date="pub_date")
     status = models.SmallIntegerField(choices=STATUS_CHOICES,
                                       default=LIVE_STATUS)
 
-    author = models.ForeignKey(User)
+    # Categories.
     categories = models.ManyToManyField(Category)
-
-    excerpt_html = models.TextField(editable=False, blank=True)
-    content_html = models.TextField(editable=False, blank=True)
 
     class Meta:
         ordering = ["-pub_date"]
@@ -56,5 +60,15 @@ class Entry(models.Model):
     def __unicode__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.content_html = markdown(self.content)
+        if self.excerpt:
+            self.excerpt_html = markdown(self.excerpt)
+        super(Entry, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
-        return "entries/%s/" % self.slug
+        """
+        return like 'entries/2015/02/01/python-unittest/'
+        """
+        return "/weblog/%s/%s/" % (self.pub_date.strftime("%Y/%m/%d"),
+                                   self.slug)
