@@ -2,8 +2,20 @@ from django.shortcuts import render
 from django.views.generic.dates import (ArchiveIndexView, DateDetailView,
                                         YearArchiveView, MonthArchiveView,
                                         DayArchiveView)
+from django.views.generic.list import ListView
 
 from .models import Entry, Category
+
+
+class CategoryListView(ListView):
+    model = Category
+    context_object_name = "categories"
+
+
+def category_detail(request, slug):
+    cat = Category.objects.get(slug=slug)
+    entries = cat.entry_set.all()
+    return render(request, 'weblog/entry_archive.html', {'entries': entries})
 
 
 class EntryArchiveIndexView(ArchiveIndexView):

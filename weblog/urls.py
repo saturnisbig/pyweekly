@@ -11,5 +11,9 @@ urlpatterns = patterns('',
         EntryMonthArchiveView.as_view()),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
         EntryDayArchiveView.as_view()),
+)
 
+urlpatterns += patterns('',
+    url(r'^categories/$', CategoryListView.as_view()),
+    url(r'^categories/(?P<slug>[-\w]+)/$', category_detail),
 )

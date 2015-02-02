@@ -21,7 +21,7 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/categories/%s/" % self.slug
+        return "/weblog/categories/%s/" % self.slug
 
 
 class Entry(models.Model):
