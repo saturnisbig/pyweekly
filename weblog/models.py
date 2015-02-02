@@ -5,6 +5,7 @@ from markdown import markdown
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 
 class Category(models.Model):
@@ -70,5 +71,9 @@ class Entry(models.Model):
         """
         return like 'entries/2015/02/01/python-unittest/'
         """
-        return "/weblog/%s/%s/" % (self.pub_date.strftime("%Y/%m/%d"),
-                                   self.slug)
+        return reverse('entry_detail', args=[self.pub_date.strftime("%Y"),
+                                             self.pub_date.strftime("%m"),
+                                             self.pub_date.strftime("%d"),
+                                             self.slug])
+        #return "/weblog/%s/%s/" % (self.pub_date.strftime("%Y/%m/%d"),
+        #                           self.slug)
