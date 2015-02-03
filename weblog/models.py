@@ -24,6 +24,12 @@ class Category(models.Model):
         return "/weblog/categories/%s/" % self.slug
 
 
+class LiveEntryManager(models.Manager):
+    def get_queryset(self):
+        return super(LiveEntryManager,
+                     self).get_queryset().filter(status=self.model.LIVE_STATUS)
+
+
 class Entry(models.Model):
     DRAFT_STATUS = 1
     LIVE_STATUS = 2
@@ -44,7 +50,7 @@ class Entry(models.Model):
     content_html = models.TextField(editable=False, blank=True)
 
     # Metadata.
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, related_name='authors')
     enable_comments = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     slug = models.SlugField(unique_for_date="pub_date")
@@ -52,7 +58,11 @@ class Entry(models.Model):
                                       default=LIVE_STATUS)
 
     # Categories.
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, related_name='entries')
+
+    # manager
+    live = LiveEntryManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ["-pub_date"]

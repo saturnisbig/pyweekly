@@ -14,12 +14,12 @@ class CategoryListView(ListView):
 
 def category_detail(request, slug):
     cat = Category.objects.get(slug=slug)
-    entries = cat.entry_set.all()
+    entries = cat.entries.all()
     return render(request, 'weblog/entry_archive.html', {'entries': entries})
 
 
 class EntryArchiveIndexView(ArchiveIndexView):
-    model = Entry
+    queryset = Entry.live.all()
     date_field = "pub_date"
     context_object_name = "entries"
     #template_name = 'weblog/entry_archive.html'
