@@ -1,0 +1,20 @@
+{% extends "coltrane/base_entries.html" %}
+
+{% block title %}
+{{ block.super }} | {{ year|date:"Y" }}
+{% endblock %}
+
+{% block content %}
+<ul>
+{% for month in date_list %}
+<li>
+    <a href="/weblog/{{ year|date:"Y" }}/{{ month|date:"b"|lower}}/">{{ month|date:"F" }}</a>
+    <a href="{% url 'coltrane_entry_archive_month' year|date:"Y" month|date:"b" %}">{{ month|date:"F" }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+{% block whatis %}
+<p>{{ year|date:"Y" }}的月份的列表</p>
+{% endblock %}

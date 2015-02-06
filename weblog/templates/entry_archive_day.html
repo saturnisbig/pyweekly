@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Entries index By Day</title>
+        
+    </head>
+    <body>
+        <h1>Entries index By Day</h1>
+        {% for entry in object_list %}
+        <h2>{{ entry.title }}</h2>
+        <p>Published on {{ entry.pub_date|date:"F j, Y"}}</p>
+        {% if entry.excerpt_html %}
+        {{ entry.excerpt_html|safe }}
+        {% else %}
+        {{ entry.body_html|slice:"50"|safe }}
+        {% endif %}
+        <p><a href="{{ entry.get_absolute_url }}">Read full entry</a></p>
+        {% endfor %}
+    </body>
+</html>
+
+
