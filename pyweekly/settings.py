@@ -85,6 +85,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # template_dir
-TEMPLATE_DIRS = (
-    '/home/teddy/envs/duapp/django-templates/pyweekly/'
-)
+#TEMPLATE_DIRS = (
+#    '/home/teddy/envs/duapp/django-templates/pyweekly/'
+#)

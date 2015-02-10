@@ -7,7 +7,7 @@ from issues.views import *
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'home', name='home'),
+    url(r'^$', home, name='home'),
     url(r'^issues/$', issues_list, name='issue_list'),
     url(r'^issues/(\d+)/', issue_articles_list),
     url(r'^weblog/', include('weblog.urls.entries')),

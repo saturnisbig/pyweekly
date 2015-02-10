@@ -2,7 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import Issue, Article
+from weblog.models import Entry
 
+
+def home(request):
+    issues = Issue.objects.all()[:2]
+    entries = Entry.live.all()[:5]
+    return render(request, 'home.html', {'issues': issues,
+                                         'entries': entries})
 
 def issues_list(request):
     issues = Issue.objects.all()
