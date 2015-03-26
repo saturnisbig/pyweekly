@@ -24,4 +24,4 @@ def issue_articles_list(request, issue_num):
         print 'issue not found'
         articles = []
     return render(request, 'issue_article_list.html',
-                  {'articles': articles})
+                  {'articles': articles, 'issue_num': issue_num})

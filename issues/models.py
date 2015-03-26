@@ -24,7 +24,7 @@ class Issue(models.Model):
     issue_num = models.IntegerField(u'期数', help_text=u'必须是正整数')
     title = models.CharField(u'本期名称', max_length=200)
     description = models.TextField(u'关于本期的简介')
-    ctime = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField(u'发布时间', default=datetime.datetime.now)
 
     def __unicode__(self):
         return self.title
