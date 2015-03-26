@@ -1,13 +1,17 @@
 {% extends "base_issues.html" %}
 
-{% block title %}{{ block.super }}{% endblock %}
+{% block title %}期刊列表 {{ block.super }}{% endblock %}
 
 {% block content %}
+<h4>Python、Django有关的网络博文选编</h4>
 <div>
-    <ul>
-        {% for issue in issues %}
-        <li><a href="/issues/{{ issue.issue_num }}">{{ issue.title }}</a></li>
-        {% endfor %}
-    </ul>
+  <ul>
+    {% for issue in issues %}
+    <li>
+      <a href="/issues/{{ issue.issue_num }}">{{ issue.title }}</a>
+      <span class="pull-right">{{ issue.pub_date|date:"F j, Y" }}</span>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/ie.css">
     <![endif]-->
     <link rel='stylesheet' href='/static/css/all.css' />
-    <link href="/static/css/jumbotron-narrow.css" rel="stylesheet">
+    {% block head_css %}{% endblock %}
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -26,7 +26,7 @@
         <ul class="nav nav-pills pull-right">
           <li><a href="/">Home</a></li>
           <li>  <a href="{% url 'issue_list' %}">期刊</a></li>
-          <li><a href="{% url 'weblog_entry_archive' %}">文章</a></li>
+          <li><a href="{% url 'weblog_entry_archive' %}">博客</a></li>
         </ul>
         <h3 class="text-muted">Teddy & Pudding</h3>
       </div>

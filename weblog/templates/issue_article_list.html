@@ -1,0 +1,15 @@
+{% extends "base_issues.html" %}
+
+{% block title %}第{{ issue_num }}期{{ block.super }}{% endblock %}
+
+{% block content %}
+
+{% for entry in articles %}
+<h2><a href="{{ entry.source_link }}" target="_blank">{{ entry.title }}</a></h2>
+<p>发布于：{{ entry.pub_date|date:"F j, Y"}}</p>
+{{ entry.excerpt_html|safe }}
+<p>来源：<a href="{{ entry.source_link }}">{{ entry.source_link }}</a></p>
+<p>中文翻译：<a href="{{ entry.translation_link }}">{{ entry.translation_link }}</a></p>
+{% endfor %}
+
+{% endblock %}
